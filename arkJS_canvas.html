@@ -1,0 +1,90 @@
+<head>
+  <script src="arkJS.js"></script>
+  <title>Breakout JS ~1KB with Canvas</title>
+  <style>
+    html,
+    body {
+      height: 99%;
+      width: 99%;
+    }
+
+    .container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+    }
+
+    #myCanvas{
+      background-color: black;
+    }
+  </style>
+  <script>
+    var size = 20;
+    var ctx;
+
+    function dr() {
+      var canvas = document.getElementById("myCanvas");
+      ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      m.map((l, y) => l.map((c, x) => {
+        if(c=='L') drawBlock(x * size, y * size);
+      }));
+
+      drawBar(_*size,8*size);
+      drawBall(x*size,y*size);
+
+      drawText(0,10,"Level "+l,"left");
+      drawText(9,10,"score "+sc,"right");
+    }
+
+    function drawBlock(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "green";
+      ctx.strokeStyle = "darkgreen";
+      ctx.rect(x, y, size, size);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawBar(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "blue";
+      ctx.strokeStyle = "darkblue";
+      ctx.rect(x - size, y, size * 3, size);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawBall(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.strokeStyle = "lightgray";
+      ctx.arc(x + (size / 2), y + (size / 2), size/2, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawText(x,y, text, align){
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.textAlign = align;
+      ctx.fillText(text,x*size,y*size);
+      ctx.fill();
+      ctx.stroke();
+    }
+  </script>
+</head>
+
+<body class="container">
+  <div>
+    <canvas id="myCanvas" width="180" height="200" style="border:1px solid #000000;"></canvas>
+    <br><br><b>Developed by:</b> Kevin Favaro (kevinvinici@gmail.com)
+    <br><br><b>Instructions:</b>
+    <br>Press arrow key (left and right) to move the bar
+    <br>Catch all "blocks" to win
+    <br>don't let the ball pass the bar!
+    <br>Press arrow right to start game
+    <br><br><b>Have fun!</b>
+  </div>
+</body>
