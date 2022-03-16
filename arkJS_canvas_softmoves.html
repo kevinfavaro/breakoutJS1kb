@@ -1,0 +1,145 @@
+<head>
+  <script src="arkJS.js"></script>
+  <title>Breakout JS ~1KB with Canvas softMoves</title>
+  <style>
+    html,
+    body {
+      height: 99%;
+      width: 99%;
+    }
+
+    .container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+    }
+
+    #myCanvas{
+      background-color: black;
+    }
+  </style>
+  <script>
+    var size = 20;
+    var ctx;
+    barX=0;
+    barDirection=0;
+    barDistanceX=0;
+    ballX=0;
+    ballY=0;
+    ballRightLeft=0;
+    ballTopDown=0;
+    ballDistanceX=0;
+    ballDistanceY=0;
+
+    timerSec=10;
+
+    function dr() {
+      draw();
+    }
+
+    function draw(){
+      var canvas = document.getElementById("myCanvas");
+      ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      m.map((l, y) => l.map((c, x) => {
+        if(c=='L') drawBlock(x * size, y * size);
+      }));
+
+      barDistanceX=barX-_;
+      barDistanceX=barDistanceX*(barDistanceX<0?-1:1);
+      if(barDistanceX>2)barX=_;
+      else
+      barDistanceX=(barDistanceX/(s/timerSec))+0.01;
+      
+      barX=barX==0?_:barX;
+      barDirection=_>barX?1:_<barX?-1:0;
+      if(barDirection!=0){
+        barX=barX+(barDirection==1?+barDistanceX:-barDistanceX);
+        barX=barDirection==1 && barX>_? _: barDirection==-1 && barX<_?_ : barX;
+      }
+      drawBar(barX*size,8*size);
+
+      ballDistanceX=ballX-x;
+      ballDistanceX=ballDistanceX*(ballDistanceX<0?-1:1);
+      if(ballDistanceX>2)ballX=x;
+      else
+      ballDistanceX=(ballDistanceX/(s/timerSec))+0.01;
+
+      ballX=ballX==0?x:ballX;
+      ballRightLeft=x>ballX?1:x<ballX?-1:0;
+      if(ballRightLeft!=0){
+        ballX=ballX+(ballRightLeft==1?+ballDistanceX:-ballDistanceX);
+        ballX=ballRightLeft==1 && ballX>x? x: ballRightLeft==-1 && ballX<x?x : ballX;
+      }
+
+      ballDistanceY=ballY-y;
+      ballDistanceY=ballDistanceY*(ballDistanceY<0?-1:1);
+      if(ballDistanceY>2)ballY=y;
+      else
+      ballDistanceY=(ballDistanceY/(s/timerSec))+0.01;
+
+      ballY=ballY==0?y:ballY;
+      ballTopDown=y>ballY?1:y<ballY?-1:0;
+      if(ballTopDown!=0){
+        ballY=ballY+(ballTopDown==1?+ballDistanceY:-ballDistanceY);
+        ballY=ballTopDown==1 && ballY>y? y: ballTopDown==-1 && ballY<y?y : ballY;
+      }
+      drawBall(ballX*size,ballY*size);
+
+      drawText(0,10,"Level "+l,"left");
+      drawText(9,10,"score "+sc,"right");
+    }
+
+    function drawBlock(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "green";
+      ctx.strokeStyle = "darkgreen";
+      ctx.rect(x, y, size, size);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawBar(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "blue";
+      ctx.strokeStyle = "darkblue";
+      ctx.rect(x - size, y, size * 3, size);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawBall(x, y) {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.strokeStyle = "lightgray";
+      ctx.arc(x + (size / 2), y + (size / 2), size/2, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawText(x,y, text, align){
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.textAlign = align;
+      ctx.fillText(text,x*size,y*size);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    setInterval(draw,timerSec);
+  </script>
+</head>
+
+<body class="container">
+  <div>
+    <canvas id="myCanvas" width="180" height="200" style="border:1px solid #000000;"></canvas>
+    <br><br><b>Developed by:</b> Kevin Favaro (kevinvinici@gmail.com)
+    <br><br><b>Instructions:</b>
+    <br>Press arrow key (left and right) to move the bar
+    <br>Catch all "blocks" to win
+    <br>don't let the ball pass the bar!
+    <br>Press arrow right to start game
+    <br><br><b>Have fun!</b>
+  </div>
+</body>
